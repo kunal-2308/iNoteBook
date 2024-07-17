@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "../App.css";
 import NoteContext from "../Context/Notes/NoteContext";
 import Notes from "./Notes";
@@ -6,27 +6,47 @@ import TagDropdown from "./TagDropdown";
 
 function Home() {
   const context = useContext(NoteContext);
-  let { notes, setNotes } = context;
+  let { notes, addNote, tag } = context;
+
+  let [title, setTitle] = useState('');
+  let [desc, setDesc] = useState('');
+
+  let handleChangeTitle = (evt) => {
+    setTitle(evt.target.value);
+  }
+
+  let handleChangeDesc = (evt) => {
+    setDesc(evt.target.value);
+  }
+
+  let handleSubmit = (evt) => {
+    evt.preventDefault(); // Prevent form submission
+    addNote(title, desc, tag);
+    setTitle(''); // Clear the input fields
+    setDesc('');
+  }
 
   return (
     <>
       <div className="container">
-        <form style={{border : '1px solid black',padding:'20px',borderRadius:'10px'}}>
+        <form style={{ border: '1px solid black', padding: '20px', borderRadius: '10px' }} onSubmit={handleSubmit}>
           <div className="mb-3">
             <label
-              htmlFor="titleInputLabel exampleInputEmail1"
+              htmlFor="titleInput"
               className="form-label"
             >
               <strong>Title</strong>
             </label>
             <input
-              type="email"
+              type="text"
               className="form-control"
               id="titleInput"
-              aria-describedby="emailHelp"
+              aria-describedby="titleHelp"
+              value={title}
+              onChange={handleChangeTitle}
             />
-            <div id="emailHelp" className="form-text">
-              You're privacy is in our hands!
+            <div id="titleHelp" className="form-text">
+              Your privacy is in our hands!
             </div>
           </div>
           <div className="mb-3">
@@ -34,25 +54,28 @@ function Home() {
               <strong>Description</strong>
             </label>
             <input
-              type="password"
+              type="text"
               className="form-control"
-              id="exampleInputPassword1 descriptionInput"
+              id="descriptionInput"
+              value={desc}
+              onChange={handleChangeDesc}
             />
           </div>
-          <TagDropdown/>
+          <TagDropdown />
           <button type="submit" className="btn btn-primary my-3">
             Submit
           </button>
         </form>
         <div className="my-3">
           <h2>Your notes:</h2>
-          {notes.map((note, index) => {
+          {Array.isArray(notes) && notes.map((note) => {
             return (
               <Notes
-                key={index} // Using index as key
+                key={note._id} // Use a unique key
                 title={note.title}
                 tag={note.tag}
                 description={note.description}
+                id={note._id}
               />
             );
           })}
