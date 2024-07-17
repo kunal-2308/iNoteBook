@@ -19,7 +19,7 @@ let startServer = async() =>{
   try {
     await connectToMongo();
     app.listen(port, () => {
-        console.log(`Server running on http://localhost:${port}`);
+        console.log(`Inotebook running on http://localhost:${port}`);
     });
 } catch (error) {
     console.error('Error starting server:', error);
