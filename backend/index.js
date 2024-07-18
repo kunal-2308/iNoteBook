@@ -1,9 +1,14 @@
 const connectToMongo = require('./db')
 const express = require('express')
 const app = express()
+var cors = require('cors')
 const port = 2000
 
+
+
+
 //Middleware : 
+app.use(cors())//for connecting and calling api througt browser
 app.use(express.json()); // to send and fetch the request body
 
 //Routes :

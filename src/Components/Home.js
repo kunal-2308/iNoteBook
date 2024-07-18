@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../App.css";
 import NoteContext from "../Context/Notes/NoteContext";
 import Notes from "./Notes";
@@ -6,7 +6,10 @@ import TagDropdown from "./TagDropdown";
 
 function Home() {
   const context = useContext(NoteContext);
-  let { notes, addNote, tag } = context;
+  let { notes, addNote, tag,getAllNotes } = context;
+  useEffect(()=>{
+    getAllNotes();
+  },[])
 
   let [title, setTitle] = useState('');
   let [desc, setDesc] = useState('');
