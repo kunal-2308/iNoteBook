@@ -4,6 +4,7 @@ import NoteContext from "../Context/Notes/NoteContext";
 function Notes(props) {
   const context = useContext(NoteContext);
   const {deleteNote} = context;
+  const{updateNote,note} = props
   return (
     <div className="container my-3">
       <div className="card">
@@ -12,7 +13,9 @@ function Notes(props) {
           <p className="card-text">{props.description}</p>
           <span className="badge text-bg-danger">{props.tag}</span>
           <br />
-          <a href="/" className="btn btn-primary my-2">
+          <a href="/" className="btn btn-primary my-2" onClick={(e)=>{
+            e.preventDefault();
+            updateNote(note)}}>
             Update <i className="fa-solid fa-pen"></i>
           </a>
           <a

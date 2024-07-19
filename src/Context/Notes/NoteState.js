@@ -7,7 +7,7 @@ let NoteState = (props) => {
 
   let [notes, setNotes] = useState(notesInitial);
   let [tag, setTag] = useState("General");
-
+  
   // GET ALL NOTES:
   const getAllNotes = async () => {
     // API CALL:
@@ -47,7 +47,8 @@ let NoteState = (props) => {
     };
     setNotes(notes.concat(note)); // Create a new array
   };
-
+ 
+  
   // Delete a note
   let deleteNote = async (id) => {
     // API CALL:
@@ -59,8 +60,10 @@ let NoteState = (props) => {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5NTcyZjU3NGZlZTA1ODJiMDMxMDg2In0sImlhdCI6MTcyMTExMDI5MH0.muMCtPuBvN0B-mvUaHkQLZ4LGgHnFyIip9GEkOc10DE",
       },
     });
+   
 
     if (response.status === 200) {
+      
       console.log("Note deleted successfully:", id);
       const newNotes = notes.filter((element) => {
         return element._id !== id;
@@ -70,12 +73,12 @@ let NoteState = (props) => {
       console.error("Failed to delete the note:", id);
     }
   };
-
+  
   // Edit a note
   const editNote = async (id, title, description, tag) => {
     // API CALL:
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token":
@@ -107,6 +110,7 @@ let NoteState = (props) => {
         tag,
         setTag,
         getAllNotes,
+       
       }}
     >
       {props.children}
