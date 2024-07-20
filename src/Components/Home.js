@@ -6,7 +6,7 @@ import TagDropdown from "./TagDropdown";
 
 function Home() {
   const context = useContext(NoteContext);
-  const { notes, addNote, tag, getAllNotes,editNote } = context;
+  const { notes, addNote, tag, getAllNotes, editNote } = context;
 
   useEffect(() => {
     getAllNotes();
@@ -14,12 +14,12 @@ function Home() {
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  
   const [etitle, esetTitle] = useState("");
   const [edesc, esetDesc] = useState("");
   const [etag, esetTag] = useState("");
-  const [note, setNote] = useState({id:"", eTitle: "", eDesc: "", eTag: "" });
-  const[eId,seteId] = useState("");
+  const [note, setNote] = useState({ id: "", eTitle: "", eDesc: "", eTag: "" });
+  const [eId, seteId] = useState("");
+
   const handleChangeTitle = (evt) => {
     setTitle(evt.target.value);
   };
@@ -37,6 +37,7 @@ function Home() {
 
   const ref = useRef(null);
   const refClose = useRef(null);
+
   // UPDATE NOTE FUNCTIONS BELOW:
   const handleChangeeTitle = (evt) => {
     const value = evt.target.value;
@@ -58,7 +59,7 @@ function Home() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    editNote(note.id,note.eTitle,note.eDesc,note.eTag);
+    editNote(note.id, note.eTitle, note.eDesc, note.eTag);
     refClose.current.click();
   };
 
@@ -66,12 +67,11 @@ function Home() {
     ref.current.click(); // Trigger the button click to open the modal
     esetTitle(note.title);
     esetDesc(note.description);
-    esetTag(note.tag);
+    esetTag(note.tag); // Set the existing tag
     seteId(note._id);
-    setNote({id:note._id, eTitle: note.title, eDesc: note.description, eTag: note.tag });
+    setNote({ id: note._id, eTitle: note.title, eDesc: note.description, eTag: note.tag });
   };
 
-  
   return (
     <>
       <button
@@ -112,7 +112,6 @@ function Home() {
                   border: "1px solid black",
                   padding: "20px",
                   borderRadius: "10px",
-                  
                 }}
               >
                 <div className="mb-3">
@@ -197,7 +196,7 @@ function Home() {
               onChange={handleChangeDesc}
             />
           </div>
-          <TagDropdown />
+          <TagDropdown value={tag} onChange={handleChangeeTag} />
           <button type="submit" className="btn btn-primary my-3">
             Submit
           </button>

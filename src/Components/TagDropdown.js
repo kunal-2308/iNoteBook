@@ -1,12 +1,16 @@
-import React, { useContext } from 'react';
-import NoteContext from '../Context/Notes/NoteContext';
+import React, { useContext } from "react";
+import NoteContext from "../Context/Notes/NoteContext";
 
-function TagDropdown() {
+function TagDropdown({ value, onChange }) {
   const context = useContext(NoteContext);
 
   const handleTagChange = (event, tag) => {
     event.preventDefault();
-    context.setTag(tag);
+    if (onChange) {
+      onChange({ target: { value: tag } });
+    } else {
+      context.setTag(tag);
+    }
   };
 
   return (
@@ -18,31 +22,51 @@ function TagDropdown() {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          {context.tag}
+          {value || context.tag}
         </button>
         <ul className="dropdown-menu">
           <li>
-            <a className="dropdown-item" href="/" onClick={(e) => handleTagChange(e, 'General')}>
+            <a
+              className="dropdown-item"
+              href="/"
+              onClick={(e) => handleTagChange(e, "General")}
+            >
               General
             </a>
           </li>
           <li>
-            <a className="dropdown-item" href="/" onClick={(e) => handleTagChange(e, 'Personal')}>
+            <a
+              className="dropdown-item"
+              href="/"
+              onClick={(e) => handleTagChange(e, "Personal")}
+            >
               Personal
             </a>
           </li>
           <li>
-            <a className="dropdown-item" href="/" onClick={(e) => handleTagChange(e, 'Fitness')}>
+            <a
+              className="dropdown-item"
+              href="/"
+              onClick={(e) => handleTagChange(e, "Fitness")}
+            >
               Fitness
             </a>
           </li>
           <li>
-            <a className="dropdown-item" href="/" onClick={(e) => handleTagChange(e, 'Grocery')}>
+            <a
+              className="dropdown-item"
+              href="/"
+              onClick={(e) => handleTagChange(e, "Grocery")}
+            >
               Grocery
             </a>
           </li>
           <li>
-            <a className="dropdown-item" href="/" onClick={(e) => handleTagChange(e, 'Medical')}>
+            <a
+              className="dropdown-item"
+              href="/"
+              onClick={(e) => handleTagChange(e, "Medical")}
+            >
               Medical
             </a>
           </li>
