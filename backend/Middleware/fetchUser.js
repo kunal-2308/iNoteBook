@@ -1,9 +1,9 @@
-// middleware/fetchUser.js
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'kasturi@@@loves###kunal';
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
 
 const fetchUser = (req, res, next) => {
-  const token = req.header('auth-token');
+  // Get the user from the jwt token and add id to req object
+  const token = req.header("auth-token");
   if (!token) {
     return res.status(401).send({ error: "Please authenticate using a valid token" });
   }
@@ -13,6 +13,7 @@ const fetchUser = (req, res, next) => {
     req.user = data.user;
     next();
   } catch (error) {
+    console.error("Token verification failed:", error.message);
     res.status(401).send({ error: "Please authenticate using a valid token" });
   }
 };

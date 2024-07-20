@@ -7,7 +7,7 @@ let NoteState = (props) => {
 
   let [notes, setNotes] = useState(notesInitial);
   let [tag, setTag] = useState("General");
-  
+
   // GET ALL NOTES:
   const getAllNotes = async () => {
     // API CALL:
@@ -15,8 +15,7 @@ let NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5NTcyZjU3NGZlZTA1ODJiMDMxMDg2In0sImlhdCI6MTcyMTExMDI5MH0.muMCtPuBvN0B-mvUaHkQLZ4LGgHnFyIip9GEkOc10DE",
+        "auth-token": localStorage.getItem('token'),
       },
     });
     const json = await response.json();
@@ -30,8 +29,7 @@ let NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5NTcyZjU3NGZlZTA1ODJiMDMxMDg2In0sImlhdCI6MTcyMTExMDI5MH0.muMCtPuBvN0B-mvUaHkQLZ4LGgHnFyIip9GEkOc10DE",
+        "auth-token": localStorage.getItem('token'),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -45,10 +43,13 @@ let NoteState = (props) => {
       date: new Date().toISOString(),
       __v: 0,
     };
-    setNotes(notes.concat(note)); // Create a new array
+    if (Array.isArray(notes)) {
+      setNotes(notes.concat(note)); // Create a new array
+    } else {
+      setNotes([note]);
+    }
   };
- 
-  
+
   // Delete a note
   let deleteNote = async (id) => {
     // API CALL:
@@ -56,14 +57,11 @@ let NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5NTcyZjU3NGZlZTA1ODJiMDMxMDg2In0sImlhdCI6MTcyMTExMDI5MH0.muMCtPuBvN0B-mvUaHkQLZ4LGgHnFyIip9GEkOc10DE",
+        "auth-token": localStorage.getItem('token'),
       },
     });
-   
 
     if (response.status === 200) {
-      
       console.log("Note deleted successfully:", id);
       const newNotes = notes.filter((element) => {
         return element._id !== id;
@@ -73,7 +71,7 @@ let NoteState = (props) => {
       console.error("Failed to delete the note:", id);
     }
   };
-  
+
   // Edit a note
   const editNote = async (id, title, description, tag) => {
     // API CALL:
@@ -81,8 +79,7 @@ let NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjY5NTcyZjU3NGZlZTA1ODJiMDMxMDg2In0sImlhdCI6MTcyMTExMDI5MH0.muMCtPuBvN0B-mvUaHkQLZ4LGgHnFyIip9GEkOc10DE",
+        "auth-token":localStorage.getItem('token'),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -110,7 +107,6 @@ let NoteState = (props) => {
         tag,
         setTag,
         getAllNotes,
-       
       }}
     >
       {props.children}

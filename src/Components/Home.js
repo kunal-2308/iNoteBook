@@ -3,13 +3,21 @@ import "../App.css";
 import NoteContext from "../Context/Notes/NoteContext";
 import Notes from "./Notes";
 import TagDropdown from "./TagDropdown";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const context = useContext(NoteContext);
   const { notes, addNote, tag, getAllNotes, editNote } = context;
 
+  let navigate = useNavigate();
   useEffect(() => {
+   if(localStorage.getItem('token')){
     getAllNotes();
+   }
+   else{
+    navigate('/Login');
+   }
+    
   }, []);
 
   const [title, setTitle] = useState("");
