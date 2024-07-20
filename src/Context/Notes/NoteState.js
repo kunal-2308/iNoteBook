@@ -7,6 +7,7 @@ let NoteState = (props) => {
 
   let [notes, setNotes] = useState(notesInitial);
   let [tag, setTag] = useState("General");
+  let [userName,setUserName] = useState("");
 
   // GET ALL NOTES:
   const getAllNotes = async () => {
@@ -96,6 +97,17 @@ let NoteState = (props) => {
     setNotes(newNotes);
   };
 
+  const getUser = async() =>{
+    const response = await fetch(`${host}/api/auth/getuser`,{
+      method:'POST',
+      headers:{
+        'auth-token':localStorage.getItem('token'),
+      }
+    });
+
+    const data = await response.json();
+    setUserName(data.name);
+  }
   return (
     <NoteContext.Provider
       value={{
@@ -107,6 +119,9 @@ let NoteState = (props) => {
         tag,
         setTag,
         getAllNotes,
+        userName,
+        getUser,
+        setUserName
       }}
     >
       {props.children}

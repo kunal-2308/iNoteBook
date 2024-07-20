@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link,useLocation } from 'react-router-dom'
-
+import NoteContext from '../Context/Notes/NoteContext';
 function Navbar() {
   let location = useLocation();
-
+  let context = useContext(NoteContext);
+  const {getUser,userName,setUserName} = context
+  useEffect(()=>{
+    getUser();
+  },[])
 
   return (
     <>
@@ -23,7 +27,7 @@ function Navbar() {
         </li>
       </ul>
       <form className= "d-flex" role="search">
-        
+        <p className='my-2 mx-2'><strong>Hi,{userName}!</strong></p>
         <Link to="/Login"><button className= "btn btn-primary mx-2" type="button">Login</button></Link>
         <Link to="/Signup"><button className= "btn btn-primary mx-2" type="button">SignUp</button></Link>
       </form>
